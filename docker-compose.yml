@@ -1,0 +1,53 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    command: ['start:prod']
+    depends_on:
+      - postgres
+    ports:
+      - '3000:3000'
+    environment:
+      - API_DB_HOST=postgres
+      - API_DB_PORT=5432
+      - API_DB_USERNAME=api
+      - API_DB_PASSWORD=password
+      - API_DB_DATABASE=api
+      - API_DB_SYNCHRONIZE=true
+      - FCD_DB_HOST=postgres
+      - FCD_DB_PORT=5432
+      - FCD_DB_USERNAME=api
+      - FCD_DB_PASSWORD=password
+      - FCD_DB_DATABASE=api
+      - LCD_COLLECTOR_ENDPOINTS=
+      - RPC_COLLECTOR_ENDPOINTS=
+      - WS_ENDPOINTS=
+      - MANTLE_ENDPOINTS=
+      - FCD_URL=https://phoenix-fcd.terra.dev
+  collector:
+    build: .
+    command: ['collector:prod']
+    depends_on:
+      - postgres
+    environment:
+      - API_DB_HOST=postgres
+      - API_DB_PORT=5432
+      - API_DB_USERNAME=api
+      - API_DB_PASSWORD=password
+      - API_DB_DATABASE=api
+      - API_DB_SYNCHRONIZE=true
+      - LCD_COLLECTOR_ENDPOINTS=
+      - RPC_COLLECTOR_ENDPOINTS=
+      - WS_ENDPOINTS=
+      - MANTLE_ENDPOINTS=
+      - CIRCULATING_SUPPLY_COLLECT_WINDOW_BLOCKS=10
+
+  postgres:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=api
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=api
+    ports:
+      - '5432:5432'
