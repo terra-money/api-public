@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@nestjs/common": "^8.1.1",
-    "@nestjs/core": "^8.1.1",
+    "@nestjs/core": "^9.0.5",
     "@nestjs/platform-express": "^8.1.1",
     "@nestjs/typeorm": "^8.0.3",
     "@terra-money/log-finder-ruleset": "^3.0.2",
